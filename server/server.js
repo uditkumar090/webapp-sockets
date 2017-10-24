@@ -3,7 +3,9 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 const publicPath=path.join(__dirname,'../public')
+const {generateMessage} = require('./utils/messages')
 
+const port =process.env.PORT || 3000;
 
 var app = express();
 var server=http.createServer(app)
@@ -17,9 +19,10 @@ io.on('connection',(socket)=>{
        console.log('user disconnected');
     });
 
-    socket.emit('createMessage',{
-      name:'udit',
-      text:'hello this server'
+    socket.on('createMessage',(message)=>{
+       console.log('createMessage',message);
+       io.emit('newMessage',generateMessage(message.name,message.text));
+      // socket.broadcast.emit('newMessage',generateMessage(message.name,message.text));
     });
 
     socket.on('sendMessage',(message)=>{
@@ -27,6 +30,6 @@ io.on('connection',(socket)=>{
     });
 });
 
-server.listen(3000,()=>{
+server.listen(port,()=>{
    console.log('Server is listing 3000 port');
 });
