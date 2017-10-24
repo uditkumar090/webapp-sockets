@@ -21,6 +21,24 @@ $('#message-post-action').on('submit',function(e){
      name:jQuery('[name=username]').val(),
      text:jQuery('[name=message]').val()
    },function(){
-
+    getlocation;
    });
+});
+
+var getlocation=jQuery('#getlocation');
+getlocation.on('click',function(){
+    if(!navigator.geolocation){
+       return alert('your browser dose not support geolocation');
+    }
+
+    navigator.geolocation.getCurrentPosition(function(position){
+          socket.emit('shareLocation',{
+              name:jQuery('[name=username]').val(),
+              latitude:position.coords.latitude,
+              longitude:position.coords.longitude
+          });
+    },function(){
+        alert('unable to get your postion');
+    });
+
 });

@@ -15,16 +15,25 @@ app.use(express.static(publicPath));
 io.on('connection',(socket)=>{
     console.log('New User connected');
 
+    socket.broadcast.emit('newMessage',generateMessage('Admin','New User Join'));
+
+
     socket.on('disconnect',()=>{
        console.log('user disconnected');
     });
 
+
+
     socket.on('createMessage',(message,callback)=>{
-       console.log('createMessage',message);
+        console.log('createMessage',message);
         io.emit('newMessage',generateMessage(message.name,message.text));
-        callback();
-      // socket.broadcast.emit('newMessage',generateMessage(message.name,message.text));
+       callback();
     });
+
+   socket.on('shareLocation',(coords)=>{
+         console.log(coords);
+        io.emit('newMessage',generateMessage(coords.name,`Location : ${coords.latitude}, ${coords.longitude}`))
+   });
 
     socket.on('sendMessage',(message)=>{
       console.log(message);
