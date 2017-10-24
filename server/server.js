@@ -16,6 +16,15 @@ io.on('connection',(socket)=>{
     socket.on('disconnect',()=>{
        console.log('user disconnected');
     });
+
+    socket.emit('createMessage',{
+      name:'udit',
+      text:'hello this server'
+    });
+
+    socket.on('sendMessage',(message)=>{
+      console.log(message);
+    });
 });
 
 server.listen(3000,()=>{
