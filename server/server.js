@@ -19,9 +19,10 @@ io.on('connection',(socket)=>{
        console.log('user disconnected');
     });
 
-    socket.on('createMessage',(message)=>{
+    socket.on('createMessage',(message,callback)=>{
        console.log('createMessage',message);
-       io.emit('newMessage',generateMessage(message.name,message.text));
+        io.emit('newMessage',generateMessage(message.name,message.text));
+        callback();
       // socket.broadcast.emit('newMessage',generateMessage(message.name,message.text));
     });
 
