@@ -21,7 +21,7 @@ $('#message-post-action').on('submit',function(e){
      name:jQuery('[name=username]').val(),
      text:jQuery('[name=message]').val()
    },function(){
-    getlocation;
+    
    });
 });
 
